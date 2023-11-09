@@ -17,4 +17,7 @@ object Utils {
         data.writeLong(totalOnlineTime / 1000)
         return baos.toByteArray()
     }
+
+    private const val PM_NAMESPACE = "bungeeonlinetime"
+    const val PM_CHANNEL_GET = "$PM_NAMESPACE:get"
 }

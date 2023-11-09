@@ -23,8 +23,6 @@ class BungeeOnlineTimePlugin : Plugin() {
 
     val onlineTimePlayers = HashMap<UUID, OnlineTimePlayer>()
 
-    val pluginMessageChannel = "bungeeonlinetime:get"
-
     val logger: Logger = LoggerFactory.getLogger(super.getLogger().name)
 
     override fun onEnable() {
@@ -59,7 +57,7 @@ class BungeeOnlineTimePlugin : Plugin() {
         proxy.pluginManager.registerListener(this, OnlineTimeListener(this))
 
         if (config.plugin.usePlaceholderApi) {
-            proxy.registerChannel(pluginMessageChannel)
+            proxy.registerChannel(Utils.PM_CHANNEL_GET)
             val timerInterval = config.plugin.placeholderRefreshTimer
             if (timerInterval > 0) {
                 proxy.scheduler.schedule(this, {
@@ -67,7 +65,7 @@ class BungeeOnlineTimePlugin : Plugin() {
                         val onlineTimePlayer = onlineTimePlayers[player.uniqueId] ?: continue
                         val arr = Utils.createPluginMessageArr(onlineTimePlayer, player.uniqueId)
                         if (arr != null)
-                            player.server?.sendData(pluginMessageChannel, arr)
+                            player.server?.sendData(Utils.PM_CHANNEL_GET, arr)
                     }
                 }, 0L, timerInterval.toLong(), TimeUnit.MINUTES)
             }

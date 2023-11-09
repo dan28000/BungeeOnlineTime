@@ -1,5 +1,6 @@
 package lu.r3flexi0n.bungeeonlinetime.velocity
 
+import BuildInfo
 import com.google.inject.Inject
 import com.velocitypowered.api.event.Subscribe
 import com.velocitypowered.api.event.proxy.ProxyInitializeEvent
@@ -33,8 +34,6 @@ class VelocityOnlineTimePlugin @Inject constructor(
     lateinit var database: Database
 
     val onlineTimePlayers = HashMap<UUID, OnlineTimePlayer>()
-
-    val pluginMessageChannel = MinecraftChannelIdentifier.from("bungeeonlinetime:get")!!
 
 
     @Subscribe
@@ -72,7 +71,8 @@ class VelocityOnlineTimePlugin @Inject constructor(
         proxy.eventManager.register(this, OnlineTimeListener(this))
 
         if (config.plugin.usePlaceholderApi) {
-            proxy.channelRegistrar.register(pluginMessageChannel)
+            val channelIdentifier = MinecraftChannelIdentifier.from(Utils.PM_CHANNEL_GET)
+            proxy.channelRegistrar.register(channelIdentifier)
             val timerInterval = config.plugin.placeholderRefreshTimer
             if (timerInterval > 0) {
                 proxy.scheduler.buildTask(this) { ->
@@ -80,7 +80,7 @@ class VelocityOnlineTimePlugin @Inject constructor(
                         val onlineTimePlayer = onlineTimePlayers[player.uniqueId] ?: continue
                         val arr = Utils.createPluginMessageArr(onlineTimePlayer, player.uniqueId)
                         if (arr != null)
-                            player.currentServer.ifPresent { it.sendPluginMessage(pluginMessageChannel, arr) }
+                            player.currentServer.ifPresent { it.sendPluginMessage(channelIdentifier, arr) }
                     }
                 }.repeat(timerInterval.toLong(), TimeUnit.MINUTES).schedule()
             }
