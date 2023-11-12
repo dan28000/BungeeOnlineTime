@@ -14,4 +14,6 @@ abstract class WrappedPlayer {
     abstract val currentServerName: String
 
     abstract fun sendPluginMessageToCurrentServer(channel: String, data: ByteArray)
+
+    abstract fun unload()
 }

@@ -57,5 +57,6 @@ class WrappedEventHandler(
                 onError = { logger.error("Error while saving online time for player ${player.name}.", it) }
             )
         }
+        player.unload()
     }
 }

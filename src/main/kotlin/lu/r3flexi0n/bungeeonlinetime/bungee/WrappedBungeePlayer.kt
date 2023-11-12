@@ -5,7 +5,6 @@ import net.md_5.bungee.api.ChatColor
 import net.md_5.bungee.api.chat.TextComponent
 import net.md_5.bungee.api.connection.ProxiedPlayer
 import java.util.UUID
-import java.util.WeakHashMap
 
 class WrappedBungeePlayer(private val player: ProxiedPlayer) : WrappedPlayer() {
     override val name: String get() = player.name
@@ -27,8 +26,12 @@ class WrappedBungeePlayer(private val player: ProxiedPlayer) : WrappedPlayer() {
         player.server.sendData(channel, data)
     }
 
+    override fun unload() {
+        cache.remove(player)
+    }
+
     companion object {
-        private val cache = WeakHashMap<ProxiedPlayer, WrappedPlayer>()
+        private val cache = HashMap<ProxiedPlayer, WrappedPlayer>()
 
         fun of(player: ProxiedPlayer): WrappedPlayer {
             return cache.getOrPut(player) { WrappedBungeePlayer(player) }
