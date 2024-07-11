@@ -33,8 +33,8 @@ class OnlineTimeCommandBase(
 
                     val placeholders = mapOf(//@formatter:off
                         "%PLAYER%"  to onlineTime.name,
-                        "%HOURS%"   to total.toHours() % 24,
-                        "%MINUTES%" to total.toMinutes() % 60
+                        "%HOURS%"   to total.toHours(),
+                        "%MINUTES%" to total.toMinutesPart()
                     )//@formatter:on
                     sendMessage.accept(config.language.onlineTime, placeholders)
                 }
@@ -63,8 +63,8 @@ class OnlineTimeCommandBase(
                 val placeholders = mapOf(//@formatter:off
                     "%RANK%"    to rank,
                     "%PLAYER%"  to onlineTime.name,
-                    "%HOURS%"   to total.toHours() % 24,
-                    "%MINUTES%" to total.toMinutes() % 60
+                    "%HOURS%"   to total.toHours(),
+                    "%MINUTES%" to total.toMinutesPart()
                 )//@formatter:on
                 sendMessage.accept(config.language.topTime, placeholders)
                 rank++

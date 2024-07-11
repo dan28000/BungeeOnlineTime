@@ -46,7 +46,7 @@ class OnlineTimeCommand(private val plugin: VelocityOnlineTimePlugin) : SimpleCo
         } else if ((size == 1 || size == 2) && arg0 == "top") {
 
             if (checkPermission(sender, "onlinetime.top")) {
-                val page = max(args[1].toIntOrNull() ?: 1, 1)
+                val page = if (size == 1) 1 else max(args[1].toIntOrNull() ?: 1, 1)
                 base.sendTopOnlineTimes(page) { msg, placeholders -> sendMessage(sender, msg, placeholders) }
             }
 
@@ -76,6 +76,6 @@ class OnlineTimeCommand(private val plugin: VelocityOnlineTimePlugin) : SimpleCo
                 message = message.replace(key, value.toString())
             }
         }
-        sender.sendMessage(LegacyComponentSerializer.legacyAmpersand().deserialize(messageId))
+        sender.sendMessage(LegacyComponentSerializer.legacyAmpersand().deserialize(message))
     }
 }

@@ -25,6 +25,7 @@ repositories {
 
 dependencies {
     implementation "org.xerial:sqlite-jdbc:3.40.1.0"
+    implementation "com.mysql:mysql-connector-j:8.0.33"
     implementation "org.jetbrains.kotlin:kotlin-stdlib:1.9.10"
     implementation "org.yaml:snakeyaml:2.0"
     bungeecord "org.slf4j:slf4j-api:2.0.5"
@@ -82,11 +83,13 @@ tasks.register("fat", ShadowJar) {
     from sourceSets.main.output
     configurations = [project.configurations.runtimeClasspath]
     archiveClassifier = "fat"
-    minimize() { exclude(dependency("org.xerial:sqlite-jdbc")) }
+    minimize() {
+        exclude(dependency("com.mysql:mysql-connector-j"))
+        exclude(dependency("org.xerial:sqlite-jdbc"))
+    }
 
     relocate "kotlin", "de.itsTyrion.shaded.kotlin"
     relocate "org.yaml", "de.itsTyrion.shaded.snakeyaml"
-    relocate "org.slf4j", "de.itsTyrion.shaded.slf4j"
 }
 
 gradle.beforeProject {

@@ -4,7 +4,7 @@ import lu.r3flexi0n.bungeeonlinetime.common.config.Config
 
 class MySQLDatabase(config: Config.MySQL) : Database(
     "MySQL",
-    arrayOf("com.mysql.cj.jdbc.Driver", "com.mysql.jdbc.Driver"),
+    arrayOf("com.mysql.cj.jdbc.Driver"),
     "jdbc:mysql://${config.host}:${config.port}/${config.database}"
 ) {
     init {
